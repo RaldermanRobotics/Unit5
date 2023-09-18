@@ -1,5 +1,6 @@
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/physics.hh>
+
 namespace gazebo {
 class MyGazeboPlugin : public WorldPlugin {
 public:
@@ -21,7 +22,6 @@ public:
     // model to use
     msg.set_sdf_filename("model://jersey_barrier");
 
-   
     // setup new position
     msgs::Set(msg.mutable_pose(),
         ignition::math::Pose3d(
@@ -29,9 +29,9 @@ public:
             ignition::math::Quaterniond(0, 0, 0)
         )
     );
-      
-     // Send the message
-     publisher->Publish(msg);
+
+    // Send the message
+    publisher->Publish(msg);
   }
 };
 

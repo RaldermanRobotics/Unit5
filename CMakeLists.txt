@@ -1,31 +1,18 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(writing_plugins)
 
-find_package(gazebo REQUIRED)
+## Compile as C++11, supported in ROS Kinetic and newer
+# add_compile_options(-std=c++11)
 
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  gazebo
   gazebo_plugins
   gazebo_ros
   roscpp
 )
-
-catkin_package()
-
-include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-)
-
-include_directories(${GAZEBO_INCLUDE_DIRS})
-link_directories(${GAZEBO_LIBRARY_DIRS})
-list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
-
-add_library(my_gazebo_plugin SHARED src/my_gazebo_plugin.cc)
-target_link_libraries(my_gazebo_plugin ${GAZEBO_LIBRARIES})
-
-add library(world_plugin SHARED src/world_plugin.cc)
-target_link_libraries(world_plugin ${GAZEBO_LIBRARIES})
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -119,7 +106,7 @@ target_link_libraries(world_plugin ${GAZEBO_LIBRARIES})
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES writing_plugins
-#  CATKIN_DEPENDS gazebo gazebo_plugins gazebo_ros roscpp
+#  CATKIN_DEPENDS gazebo_plugins gazebo_ros roscpp
 #  DEPENDS system_lib
 )
 
@@ -163,6 +150,16 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+
+include_directories(${GAZEBO_INCLUDE_DIRS})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
+
+add_library(my_gazebo_plugin SHARED src/my_gazebo_plugin.cc)
+target_link_libraries(my_gazebo_plugin ${GAZEBO_LIBRARIES})
+
+add_library(world_plugin SHARED src/world_plugin.cc)
+target_link_libraries(world_plugin ${GAZEBO_LIBRARIES})
 
 #############
 ## Install ##
